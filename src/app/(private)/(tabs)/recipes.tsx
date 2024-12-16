@@ -50,9 +50,6 @@ export default function MyRecipes() {
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.welcomeText}>
-            {/* Olá, Chef {user?.firstName}! 👨‍🍳 */}
-          </Text>
           <Text style={styles.subtitle}>O que vamos cozinhar hoje?</Text>
         </View>
         <Pressable style={styles.logoutButton} onPress={handleSignOut}>
@@ -119,9 +116,10 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 20,
     color: "#666",
     marginTop: 4,
+    marginLeft: 5,
   },
   logoutButton: {
     padding: 8,
