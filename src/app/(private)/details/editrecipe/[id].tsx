@@ -32,11 +32,20 @@ export default function EditRecipe() {
 
   const onEditRecipe = async () => {
     setIsSubmitting(true);
+
     const { data: sessionData, error: sessionError } =
       await supabase.auth.getSession();
-    if (sessionError || !sessionData.session) {
-      console.error("Usuário não autenticado"),
-        sessionError?.message || "Sessão Inexistente";
+
+    if (sessionError || !sessionData?.session) {
+      console.error(
+        "Usuário não autenticado",
+        sessionError?.message || "Sessão Inexistente"
+      );
+      Alert.alert(
+        "Erro",
+        "Usuário não autenticado. Por favor, tente novamente."
+      );
+      setIsSubmitting(false);
       return;
     }
 
@@ -52,30 +61,30 @@ export default function EditRecipe() {
         image: selectedImage,
         userId,
       },
-
       {
-        onError: (err: any) => {
-          console.error("Erro ao editar receita:", err.message);
+        onSuccess: () => {
+          Alert.alert("Sucesso", "Receita editada com sucesso!");
+          router.push("/(private)/(tabs)/recipes");
+        },
+        onError: (error: any) => {
+          console.error("Erro ao editar receita:", error.message);
           Alert.alert(
             "Erro",
             "Não foi possível editar a receita. Tente novamente."
           );
         },
-        onSuccess: () => {
-          Alert.alert("Sucesso", "Receita editada com sucesso!");
-          router.push("/(private)/(tabs)/recipes");
-        },
       }
     );
+
     setIsSubmitting(false);
   };
 
   const removeIngredient = () => {
-    setIngredients(" ");
+    setIngredients("");
   };
 
   const removeStep = () => {
-    setDesc(" ");
+    setDesc("");
   };
 
   const pickImage = async () => {
@@ -127,6 +136,7 @@ export default function EditRecipe() {
             value={ingredients}
             onChangeText={setIngredients}
             placeholder={"Ingredientes"}
+            multiline
           />
 
           <TouchableOpacity
@@ -145,6 +155,7 @@ export default function EditRecipe() {
             value={desc}
             onChangeText={setDesc}
             placeholder={"Descrição da Receita"}
+            multiline
           />
           <TouchableOpacity onPress={removeStep} style={styles.removeButton}>
             <Text style={styles.removeButtonText}>X</Text>

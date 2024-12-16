@@ -1,50 +1,75 @@
-# Welcome to your Expo app 👋
+Aplicação de Receitas
+Descrição
+Esta aplicação permite que os usuários gerenciem suas receitas de forma prática. Você pode criar, editar, deletar e filtrar receitas. Cada receita pode conter informações como foto, ingredientes, tempo de preparo e uma descrição detalhada.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Pré-requisitos
+Antes de começar, certifique-se de que você tem as seguintes dependências instaladas em sua máquina:
 
-## Get started
+Node.js (versão recomendada: v14.x ou superior)
+npm (gerenciador de pacotes do Node.js)
+Expo CLI (para rodar o aplicativo em dispositivos móveis ou simuladores)
+Instalação
 
-1. Install dependencies
+1. Clone o repositório:
+   bash
+   Copiar código
+   git clone https://github.com/seu-username/nome-do-repositorio.git
 
-   ```bash
+2. Navegue até o diretório do projeto:
+   bash
+   Copiar código
+   cd nome-do-repositorio
+
+3. Instale as dependências com npm:
+   bash
+   Copiar código
    npm install
-   ```
 
-2. Start the app
+4. Instale as dependências do React Query e Supabase:
+   bash
+   Copiar código
+   npm install @tanstack/react-query supabase-js
 
-   ```bash
-    npx expo start
-   ```
+5. Inicie o servidor com Expo, limpando o cache:
+   bash
+   Copiar código
+   npx expo start --clear  
+   Configuração do Usuário
+   Usuário de teste:
+   Email: batata@gmail.com
+   Senha: batata123
+   Caso precise de um usuário alternativo ou tenha problemas com o login, utilize este usuário para acessar a aplicação.
 
-In the output, you'll find options to open the app in a
+Funcionalidades
+React Query:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+A aplicação utiliza o React Query para gerenciar o cache e otimizar as requisições de dados. Isso facilita a recuperação de receitas, mantendo os dados atualizados sem sobrecarregar a API.
+As chamadas de API para buscar, adicionar, editar e deletar receitas são realizadas de forma eficiente usando o React Query, garantindo um melhor desempenho e uma melhor experiência do usuário.
+Supabase:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+O Supabase é usado como o backend para armazenamento e gerenciamento dos dados das receitas.
+O projeto está integrado ao Supabase, que fornece serviços de autenticação, armazenamento de dados e API REST para realizar operações como buscar receitas, criar, editar e deletar com facilidade.
+As requisições são feitas diretamente ao Supabase para gerenciar as receitas armazenadas, garantindo que os dados estejam sincronizados e seguros.
+Criar Receitas: Adicionar novas receitas com detalhes como foto, ingredientes, tempo de preparo e descrição.
 
-## Get a fresh project
+Editar Receitas: Alterar informações de receitas já existentes.
 
-When you're ready, run:
+Deletar Receitas: Remover receitas da lista.
 
-```bash
-npm run reset-project
-```
+Filtrar Receitas: Buscar por nome ou outros critérios específicos para encontrar rapidamente o que precisa.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Rodando o Aplicativo
 
-## Learn more
+Após iniciar o Expo, um servidor local será iniciado.
+Abra o aplicativo Expo no seu dispositivo móvel ou use o simulador do Expo no navegador.
+Navegue pelas seções da aplicação para visualizar, criar, editar e deletar receitas.
 
-To learn more about developing your project with Expo, look at the following resources:
+Contribuição
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Contribuições são sempre bem-vindas! Se quiser contribuir para o projeto, siga as instruções abaixo:
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Faça um fork do repositório.
+Crie uma branch com sua nova funcionalidade: git checkout -b minha-nova-funcionalidade.
+Comite suas alterações: git commit -m 'Add minha nova funcionalidade'.
+Faça o push para a branch: git push origin minha-nova-funcionalidade.
+Abra uma Pull Request.

@@ -68,10 +68,6 @@ export const useEditRecipe = () => {
   const queryClient = useQueryClient();
   return useMutation({
     async mutationFn(data: any) {
-      if (!data.userId) {
-        throw new Error("Id do usuário é obrigatório para criar receita");
-      }
-
       const { error, data: updateRecipe } = await supabase
         .from("recipes")
         .update({
