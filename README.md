@@ -55,13 +55,3 @@ Rodando o Aplicativo
 Após iniciar o Expo, um servidor local será iniciado.
 Abra o aplicativo Expo no seu dispositivo móvel ou use o simulador do Expo no navegador.
 Navegue pelas seções da aplicação para visualizar, criar, editar e deletar receitas.
-
-Contribuição
-
-Contribuições são sempre bem-vindas! Se quiser contribuir para o projeto, siga as instruções abaixo:
-
-Faça um fork do repositório.
-Crie uma branch com sua nova funcionalidade: git checkout -b minha-nova-funcionalidade.
-Comite suas alterações: git commit -m 'Add minha nova funcionalidade'.
-Faça o push para a branch: git push origin minha-nova-funcionalidade.
-Abra uma Pull Request.
