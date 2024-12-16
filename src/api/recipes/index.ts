@@ -75,12 +75,12 @@ export const useEditRecipe = () => {
       const { error, data: updateRecipe } = await supabase
         .from("recipes")
         .update({
-          name: data?.name,
-          preptime: data?.preptime,
-          ingredients: data?.ingredients,
-          desc: data?.desc,
-          image: data?.image,
-          user_id: data?.userId,
+          name: data.name,
+          preptime: data.preptime,
+          ingredients: data.ingredients,
+          desc: data.desc,
+          image: data.image,
+          user_id: data.userId,
         })
         .eq("id", data.id)
         .select()

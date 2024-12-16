@@ -5,7 +5,6 @@ import {
   Pressable,
   FlatList,
   TextInput,
-  TouchableOpacity,
   Alert,
   ActivityIndicator,
 } from "react-native";
@@ -21,19 +20,23 @@ import { useRecipeList } from "@/src/api/recipes";
 
 export default function MyRecipes() {
   const [search, setSearch] = useState("");
-
   const { setAuth } = useAuth();
+  const { data: recipes, error, isLoading } = useRecipeList();
 
   async function handleSignOut() {
     const { error } = await supabase.auth.signOut();
-
     setAuth(null);
 
     if (error) {
       Alert.alert("Error", "Error ao Sair da Aplicação");
     }
   }
-  const { data: recipes, error, isLoading } = useRecipeList();
+
+  const filteredRecipes = search
+    ? recipes?.filter((recipe) =>
+        recipe.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : recipes;
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -71,7 +74,7 @@ export default function MyRecipes() {
       </View>
 
       <FlatList
-        data={recipes}
+        data={filteredRecipes}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
           <View>
@@ -137,11 +140,6 @@ const styles = StyleSheet.create({
     borderColor: "#E0E0E0",
     fontSize: 16,
     color: "#333",
-  },
-  sectionDescription: {
-    fontSize: 12,
-    color: "#666",
-    marginTop: 4,
   },
   flatListContainer: {
     alignItems: "center",

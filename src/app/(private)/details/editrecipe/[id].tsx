@@ -41,8 +41,10 @@ export default function EditRecipe() {
     }
 
     const userId = sessionData.session?.user.id;
+
     updateRecipe(
       {
+        id,
         name: recipeName,
         preptime: prepTime,
         ingredients,
@@ -50,6 +52,7 @@ export default function EditRecipe() {
         image: selectedImage,
         userId,
       },
+
       {
         onError: (err: any) => {
           console.error("Erro ao editar receita:", err.message);
@@ -150,7 +153,7 @@ export default function EditRecipe() {
 
         <View style={styles.saveButton}>
           <Button
-            title="Salvar Receita"
+            title="Editar Receita"
             style={{
               width: "auto",
               alignSelf: "center",
