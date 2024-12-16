@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,6 +17,7 @@ import { RecipesList } from "@/src/components/Recipes";
 import { router } from "expo-router";
 import { supabase } from "@/src/lib/supabase";
 import { useAuth } from "@/src/contexts/authContext";
+import { useRecipeList } from "@/src/api/recipes";
 
 export default function MyRecipes() {
   const [search, setSearch] = useState("");
@@ -30,6 +32,15 @@ export default function MyRecipes() {
     if (error) {
       Alert.alert("Error", "Error ao Sair da Aplicação");
     }
+  }
+  const { data: recipes, error, isLoading } = useRecipeList();
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <Text>Falha em buscar as receitas</Text>;
   }
 
   return (
@@ -66,7 +77,7 @@ export default function MyRecipes() {
           <View>
             <RecipesList
               data={item}
-              // onPress={() => router.navigate(`/details/${item.id}`)}
+              onPress={() => router.navigate(`/details/${item.id}`)}
             />
           </View>
         )}

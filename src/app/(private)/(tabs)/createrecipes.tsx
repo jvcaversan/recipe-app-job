@@ -16,7 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 import * as ImagePicker from "expo-image-picker";
-import { useCreateRecipe } from "@/src/api/createRecipe";
+import { useCreateRecipe } from "@/src/api/recipes";
 import { supabase } from "@/src/lib/supabase";
 
 export default function CreateRecipe() {
@@ -90,15 +90,6 @@ export default function CreateRecipe() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.backButton}>
-          <Pressable
-            onPress={() => router.back()}
-            style={styles.backButtonContent}
-          >
-            <Ionicons name="arrow-back" size={30} color="black" />
-            <Text style={styles.backButtonText}>Voltar</Text>
-          </Pressable>
-        </View>
         <View style={styles.imageContainer}>
           {selectedImage && (
             <Image
@@ -239,6 +230,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 20,
   },
   selectedImage: {
     width: 150,

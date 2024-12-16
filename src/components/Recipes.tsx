@@ -2,11 +2,11 @@ import { Text, Image, Pressable } from "react-native";
 
 type Props = {
   data: {
-    photo: string;
+    image: string;
     name: string;
-    tempodepreparo: string;
+    preptime: string;
   };
-  // onPress: () => void;
+  onPress: () => void;
 };
 
 export function RecipesList({ data, ...rest }: Props) {
@@ -22,10 +22,10 @@ export function RecipesList({ data, ...rest }: Props) {
       {...rest}
     >
       <Image
-        source={{ uri: data.photo }}
+        source={{ uri: data.image }}
         style={{ width: 150, height: 150, borderRadius: 15 }}
       />
-      <Text>Tempo: {data.tempodepreparo}</Text>
+      <Text>{data.name}</Text>
     </Pressable>
   );
 }

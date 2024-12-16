@@ -1,5 +1,5 @@
 import { supabase } from "@/src/lib/supabase";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 
 export const useCreateRecipe = () => {
   const queryClient = useQueryClient();
@@ -30,6 +30,36 @@ export const useCreateRecipe = () => {
 
     async onSuccess() {
       await queryClient.invalidateQueries({ queryKey: ["recipes"] });
+    },
+  });
+};
+
+export const useRecipeList = () => {
+  return useQuery({
+    queryKey: ["recipes"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("recipes").select("*");
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+  });
+};
+
+export const useRecipe = (id: string) => {
+  return useQuery({
+    queryKey: ["recipes", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("recipes")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
     },
   });
 };
