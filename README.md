@@ -11,14 +11,8 @@ Expo CLI (para rodar o aplicativo em dispositivos móveis ou simuladores)
 Instalação
 
 1. Clone o repositório:
-   bash
-   Copiar código
-   git clone https://github.com/seu-username/nome-do-repositorio.git
 
 2. Navegue até o diretório do projeto:
-   bash
-   Copiar código
-   cd nome-do-repositorio
 
 3. Instale as dependências com npm:
    bash
@@ -31,8 +25,6 @@ Instalação
    npm install @tanstack/react-query supabase-js
 
 5. Inicie o servidor com Expo, limpando o cache:
-   bash
-   Copiar código
    npx expo start --clear  
    Configuração do Usuário
    Usuário de teste:
