@@ -1,5 +1,5 @@
 import { Button } from "@/src/components/Button";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
   Text,
@@ -8,18 +8,16 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Pressable,
   Alert,
   Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
 
 import * as ImagePicker from "expo-image-picker";
-import { useCreateRecipe } from "@/src/api/recipes";
+import { useEditRecipe } from "@/src/api/recipes";
 import { supabase } from "@/src/lib/supabase";
 
-export default function CreateRecipe() {
+export default function EditRecipe() {
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [recipeName, setRecipeName] = useState<string>("");
   const [prepTime, setPrepTime] = useState<string>("");
@@ -27,9 +25,12 @@ export default function CreateRecipe() {
   const [desc, setDesc] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { mutate: createRecipe, error } = useCreateRecipe();
+  const { id: idString } = useLocalSearchParams();
+  const id = typeof idString === "string" ? idString : null;
 
-  const onCreate = async () => {
+  const { data: updateRecipe, error } = useEditRecipe();
+
+  const onEditRecipe = async () => {
     setIsSubmitting(true);
     const { data: sessionData, error: sessionError } =
       await supabase.auth.getSession();
@@ -40,7 +41,7 @@ export default function CreateRecipe() {
     }
 
     const userId = sessionData.session?.user.id;
-    createRecipe(
+    updateRecipe(
       {
         name: recipeName,
         preptime: prepTime,
@@ -50,15 +51,15 @@ export default function CreateRecipe() {
         userId,
       },
       {
-        onError: (err) => {
-          console.error("Erro ao criar receita:", err.message);
+        onError: (err: any) => {
+          console.error("Erro ao editar receita:", err.message);
           Alert.alert(
             "Erro",
-            "Não foi possível criar a receita. Tente novamente."
+            "Não foi possível editar a receita. Tente novamente."
           );
         },
         onSuccess: () => {
-          Alert.alert("Sucesso", "Receita criada com sucesso!");
+          Alert.alert("Sucesso", "Receita editada com sucesso!");
           router.push("/(private)/(tabs)/recipes");
         },
       }
@@ -67,11 +68,11 @@ export default function CreateRecipe() {
   };
 
   const removeIngredient = () => {
-    setIngredients("");
+    setIngredients(" ");
   };
 
-  const removeStep = (index: number) => {
-    setDesc("");
+  const removeStep = () => {
+    setDesc(" ");
   };
 
   const pickImage = async () => {
@@ -126,7 +127,7 @@ export default function CreateRecipe() {
           />
 
           <TouchableOpacity
-            onPress={() => removeIngredient}
+            onPress={removeIngredient}
             style={styles.removeButton}
           >
             <Text style={styles.removeButtonText}>X</Text>
@@ -142,10 +143,7 @@ export default function CreateRecipe() {
             onChangeText={setDesc}
             placeholder={"Descrição da Receita"}
           />
-          <TouchableOpacity
-            onPress={() => removeStep}
-            style={styles.removeButton}
-          >
+          <TouchableOpacity onPress={removeStep} style={styles.removeButton}>
             <Text style={styles.removeButtonText}>X</Text>
           </TouchableOpacity>
         </View>
@@ -157,7 +155,7 @@ export default function CreateRecipe() {
               width: "auto",
               alignSelf: "center",
             }}
-            onPress={onCreate}
+            onPress={onEditRecipe}
           />
         </View>
       </ScrollView>

@@ -63,3 +63,56 @@ export const useRecipe = (id: string) => {
     },
   });
 };
+
+export const useEditRecipe = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    async mutationFn(data: any) {
+      if (!data.userId) {
+        throw new Error("Id do usuário é obrigatório para criar receita");
+      }
+
+      const { error, data: updateRecipe } = await supabase
+        .from("recipes")
+        .update({
+          name: data?.name,
+          preptime: data?.preptime,
+          ingredients: data?.ingredients,
+          desc: data?.desc,
+          image: data?.image,
+          user_id: data?.userId,
+        })
+        .eq("id", data.id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return updateRecipe;
+    },
+
+    async onSuccess(_, { id }) {
+      await queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      await queryClient.invalidateQueries({ queryKey: ["recipes", id] });
+    },
+  });
+};
+
+export const useDeleteRecipe = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    async mutationFn(id: string) {
+      const { error } = await supabase.from("recipes").delete().eq("id", id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ["recipes"] });
+    },
+  });
+};
