@@ -6,7 +6,7 @@ type Props = {
     name: string;
     tempodepreparo: string;
   };
-  onPress: () => void;
+  // onPress: () => void;
 };
 
 export function RecipesList({ data, ...rest }: Props) {

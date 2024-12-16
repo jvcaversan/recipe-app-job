@@ -17,22 +17,61 @@ import { Ionicons } from "@expo/vector-icons";
 
 import * as ImagePicker from "expo-image-picker";
 import { useCreateRecipe } from "@/src/api/createRecipe";
+import { supabase } from "@/src/lib/supabase";
 
 export default function CreateRecipe() {
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [recipeName, setRecipeName] = useState<string>("");
   const [prepTime, setPrepTime] = useState<string>("");
   const [ingredients, setIngredients] = useState<string>("");
-  const [steps, setSteps] = useState<string>("");
+  const [desc, setDesc] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { mutate: createRecipe, error } = useCreateRecipe();
+
+  const onCreate = async () => {
+    setIsSubmitting(true);
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
+    if (sessionError || !sessionData.session) {
+      console.error("Usuário não autenticado"),
+        sessionError?.message || "Sessão Inexistente";
+      return;
+    }
+
+    const userId = sessionData.session?.user.id;
+    createRecipe(
+      {
+        name: recipeName,
+        preptime: prepTime,
+        ingredients,
+        desc,
+        image: selectedImage,
+        userId,
+      },
+      {
+        onError: (err) => {
+          console.error("Erro ao criar receita:", err.message);
+          Alert.alert(
+            "Erro",
+            "Não foi possível criar a receita. Tente novamente."
+          );
+        },
+        onSuccess: () => {
+          Alert.alert("Sucesso", "Receita criada com sucesso!");
+          router.push("/(private)/(tabs)/recipes");
+        },
+      }
+    );
+    setIsSubmitting(false);
+  };
 
   const removeIngredient = () => {
     setIngredients("");
   };
 
   const removeStep = (index: number) => {
-    setSteps("");
+    setDesc("");
   };
 
   const pickImage = async () => {
@@ -108,8 +147,8 @@ export default function CreateRecipe() {
         <View style={styles.row}>
           <TextInput
             style={[styles.input, styles.flexInput]}
-            value={steps}
-            onChangeText={setSteps}
+            value={desc}
+            onChangeText={setDesc}
             placeholder={"Descrição da Receita"}
           />
           <TouchableOpacity
@@ -127,7 +166,7 @@ export default function CreateRecipe() {
               width: "auto",
               alignSelf: "center",
             }}
-            onPress={() => console.log("uepa")}
+            onPress={onCreate}
           />
         </View>
       </ScrollView>

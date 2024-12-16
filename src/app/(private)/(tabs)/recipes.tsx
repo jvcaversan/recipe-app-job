@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { SectionTitle } from "../../../components/SectionTitle";
 import { useState } from "react";
-// import { RecipesList } from "@/src/components/Recipes";
+import { RecipesList } from "@/src/components/Recipes";
 import { router } from "expo-router";
 import { supabase } from "@/src/lib/supabase";
 import { useAuth } from "@/src/contexts/authContext";
@@ -59,21 +59,21 @@ export default function MyRecipes() {
         <SectionTitle>Minhas Receitas</SectionTitle>
       </View>
 
-      {/* <FlatList
-          data={recipes}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <View>
-              <RecipesList
-                data={item}
-                onPress={() => router.navigate(`/details/${item.id}`)}
-              />
-            </View>
-          )}
-          numColumns={2}
-          contentContainerStyle={styles.flatListContainer}
-          showsVerticalScrollIndicator={false}
-        /> */}
+      <FlatList
+        data={recipes}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => (
+          <View>
+            <RecipesList
+              data={item}
+              // onPress={() => router.navigate(`/details/${item.id}`)}
+            />
+          </View>
+        )}
+        numColumns={2}
+        contentContainerStyle={styles.flatListContainer}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 }
