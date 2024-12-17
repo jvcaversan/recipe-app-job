@@ -28,7 +28,7 @@ export default function EditRecipe() {
   const { id: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : null;
 
-  const { data: updateRecipe, error } = useEditRecipe();
+  const { mutate: updateRecipe, error } = useEditRecipe();
 
   const onEditRecipe = async () => {
     setIsSubmitting(true);
@@ -50,6 +50,7 @@ export default function EditRecipe() {
     }
 
     const userId = sessionData.session?.user.id;
+    console.log(userId);
 
     updateRecipe(
       {

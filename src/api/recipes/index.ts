@@ -9,7 +9,7 @@ export const useCreateRecipe = () => {
         throw new Error("Id do usuário é obrigatório para criar receita");
       }
 
-      const { error, data: newRecipe } = await supabase
+      const { data: newRecipe, error } = await supabase
         .from("recipes")
         .insert({
           name: data.name,
@@ -68,7 +68,7 @@ export const useEditRecipe = () => {
   const queryClient = useQueryClient();
   return useMutation({
     async mutationFn(data: any) {
-      const { error, data: updateRecipe } = await supabase
+      const { data: updateRecipe, error } = await supabase
         .from("recipes")
         .update({
           name: data.name,
